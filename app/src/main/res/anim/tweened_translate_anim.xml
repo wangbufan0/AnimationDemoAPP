@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<translate xmlns:android="http://schemas.android.com/apk/res/android"
+    android:interpolator="@android:anim/accelerate_decelerate_interpolator"
+    android:fromXDelta="0"
+    android:toXDelta="320"
+    android:fromYDelta="0"
+    android:toYDelta="0"
+    android:duration="2000"
+    />
+
+
+    <!--
+     fromXDelta  动画起始位置的横坐标
+     toXDelta    动画起结束位置的横坐标
+     fromYDelta  动画起始位置的纵坐标
+     toYDelta   动画结束位置的纵坐标
+     duration 动画的持续时间
+     -->
