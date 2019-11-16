@@ -1,16 +1,14 @@
 package com.example.myapplication1
 
-import android.animation.AnimatorSet
-import android.animation.ArgbEvaluator
-import android.animation.ObjectAnimator
-import android.animation.ValueAnimator
+import android.animation.*
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.util.AttributeSet
 import android.view.View
-import android.view.animation.LinearInterpolator
+import android.view.animation.*
+import androidx.interpolator.view.animation.LinearOutSlowInInterpolator
 
 /**
  *
@@ -92,14 +90,14 @@ class PointAnimView: View {
        // canvas.drawPoint(point!!.x,point!!.y,linePaint)
     }
 
-    private fun startAnimation(){
+    fun startAnimation(){
         val startP=Point(RADIUS, RADIUS)
         val endP=Point(width- RADIUS,height- RADIUS)
         val valueAnimator=ValueAnimator.ofObject(PointSinEvaluator(),startP,endP)
         valueAnimator.repeatCount=-1
         valueAnimator.repeatMode=ValueAnimator.REVERSE
-        valueAnimator.addUpdateListener { animation ->
-            point= animation.animatedValue as Point
+        valueAnimator.addUpdateListener {
+            point= it.animatedValue as Point
             postInvalidate()
         }
 
@@ -116,12 +114,32 @@ class PointAnimView: View {
             radius= it.animatedValue as Float
         }
 
-        val animSet=AnimatorSet()
-        animSet.play(valueAnimator).with(animaColor).with(animScale)
-        animSet.duration=5000
-        animSet.interpolator=LinearInterpolator()
-        animSet.start()
+        animSet=AnimatorSet()
+        animSet!!.play(valueAnimator).with(animaColor).with(animScale)
+        animSet!!.duration=5000
+        animSet!!.interpolator=interpolatorType
+        animSet!!.start()
     }
 
+    var interpolatorType:TimeInterpolator=LinearInterpolator()
+    private var animSet:AnimatorSet?=null
+    fun setInterpolatorType(type:Int){
+        when(type){
+            1-> interpolatorType = BounceInterpolator()
+            2-> interpolatorType = AccelerateDecelerateInterpolator()
+            3-> interpolatorType = DecelerateInterpolator()
+            4-> interpolatorType = AnticipateInterpolator()
+            5-> interpolatorType = LinearInterpolator()
+            6-> interpolatorType = LinearOutSlowInInterpolator()
+            7-> interpolatorType = OvershootInterpolator()
+            else-> interpolatorType = LinearInterpolator()
+        }
+    }
 
+    fun stopAnimation(){
+        if(animSet!=null){
+            animSet!!.cancel()
+            this.clearAnimation()
+        }
+    }
 }

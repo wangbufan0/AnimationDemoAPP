@@ -19,9 +19,16 @@ class PropertyAnimationActivity : AppCompatActivity(),View.OnClickListener {
             R.id.bt_translate->translateAnimation!!.start()
             R.id.bt_set->setanimation!!.start()
             R.id.iv-> Toast.makeText(this,"图片被点击", Toast.LENGTH_SHORT).show()
+            R.id.bt_point->{
+                type++
+                if (type==9)type=1
+                pav.setInterpolatorType(type)
+                pav.stopAnimation()
+                pav.startAnimation()
+            }
         }
     }
-
+    private var type:Int=1
     companion object{
         fun launch(context: Context){
             val intent=Intent(context,PropertyAnimationActivity::class.java)
@@ -59,14 +66,12 @@ class PropertyAnimationActivity : AppCompatActivity(),View.OnClickListener {
         setanimation=AnimatorSet()
         setanimation!!.playTogether(alphaAnimation,rotateAnimation,scaleAnimation,translateAnimation)
 
-
-
-
         bt_alpha.setOnClickListener(this)
         bt_rotate.setOnClickListener(this)
         bt_scale.setOnClickListener(this)
         bt_translate.setOnClickListener(this)
         bt_set.setOnClickListener(this)
+        bt_point.setOnClickListener(this)
         iv.setOnClickListener(this)
 
     }
